@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  integration-test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2.3.4
+      with:
+        persist-credentials: false
+    - name: Compile
+      run: mvn compile
+    - name: XML Configuration
+      run: mvn spring-boot:run
+    - name: Java Configuration
+      run: mvn spring-boot:run -D"spring-boot.run.arguments"="java"
